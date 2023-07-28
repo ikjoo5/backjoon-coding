@@ -94,3 +94,115 @@ while len(quene) > 1:
     quene.pop()
 
 print(quene[0])
+
+############################################################
+
+###### 2023-07-28
+
+### BOJ 11866번
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+
+n,k = map(int, input().split())
+quene = deque([])
+new_quene = []
+
+for x in range(1,n+1):
+    quene.appendleft(x)
+
+while len(quene) > 0:
+    for y in range(k):
+        if y == k-1:
+            new_quene.append(quene[-1])
+            quene.pop()
+        else:
+            quene.appendleft(quene[-1])
+            quene.pop()
+
+print("<", ", ".join(map(str, new_quene)), ">", sep="")
+
+
+
+### BOJ 1966번
+    # 오답!!
+        # b/c 중복숫자의 index를 해결 못함
+import sys
+from collections import deque
+
+input = sys.stdin.readline
+
+case_number = int(input())
+
+for _ in range(case_number):
+    waitlist = deque([])
+    printed = deque([])
+    print_number, m = map(int, input().split())
+    array = map(int, input().split())
+    
+    count = 0
+
+    for x in array:
+        waitlist.append(x)
+    
+    mark_m = waitlist[m]
+    
+    while len(waitlist) > 0:
+        if waitlist[0] != max(waitlist):
+            waitlist.append(waitlist[0])
+            waitlist.popleft()
+        elif waitlist[0] == max(waitlist):
+            printed.append(waitlist[0])
+            waitlist.popleft()
+            count +=1
+    
+    print(printed.index(mark_m)+1)
+    print(count)
+
+
+    ### 내 풀이접근에서 가장 모범답안
+        # 문제의 어려운점은 중복 숫자들이 존재할때 내가 원하는 값을 서칭완료해도 index가 맞아야된다
+        # 따라서 deque이나 리스트를 index용으로 추가한다
+        # 최종적으로 우리는 두개의 리스트를 굴린다
+        # [1,1,9,1,1,1] == [0,1,2,3,4,5] 이둘을 원하는 index순서의 숫자를 출력할때까지 같이 push pull 
+
+import sys
+
+# 테스트 케이스의 수
+case = int(sys.stdin.readline())
+
+for _ in range(case):
+    # 문서의 개수 N,  몇 번째로 인쇄되었는지 궁금한 문서가 
+    # 현재 Queue에서 몇 번째에 놓여 있는지를 나타내는 정수 M
+    n, m = map(int, sys.stdin.readline().split())
+    
+    # N개 문서의 중요도
+    priority = list(map(int, sys.stdin.readline().split()))
+    
+    # N개 문서의 기존 순서 저장
+    index = [i for i in range(n)]
+
+    # 몇 번째로 인쇄할지 카운트하는 변수
+    count = 0
+    
+    while True:
+        # 현재 문서가 중요도가 제일 높다면
+        if priority[0] == max(priority):
+            # 몇 번째로 출력 되는지 카운트
+            count += 1
+            # 궁금한 문서인지 확인
+            if index[0] == m:
+                print(count)
+                break
+            # 궁금한 문서가 아니라면 리스트에서 탈출
+            else:
+                del priority[0]
+                del index[0]
+        # 나머지 문서들 중 현재 문서보다 중요도가 높은 문서가 하나라도 있다면
+        else:
+            # 이 문서를 인쇄하지 않고 Queue의 가장 뒤에 재배치
+            priority.append(priority[0])
+            del priority[0]
+            index.append(index[0])
+            del index[0]
