@@ -206,3 +206,104 @@ for _ in range(case):
             del priority[0]
             index.append(index[0])
             del index[0]
+
+###############################################################
+
+####### 2023-07-29
+
+### BOJ 10866번
+
+from collections import deque
+import sys
+
+n = int(sys.stdin.readline())
+quene = deque([])
+for x in range(n):
+    order = sys.stdin.readline().split()
+
+    if order[0] == 'front':
+        if len(quene) != 0:
+            print(quene[0])
+        else:
+            print('-1')
+
+    elif order[0] == 'back':
+        if len(quene) != 0:
+            print(quene[-1])
+        else:
+            print('-1')
+
+    elif order[0] == 'empty':
+        if len(quene) == 0:
+            print('1')
+        else:
+            print('0')
+
+    elif order[0] == 'size':
+        print(len(quene))
+
+    elif order[0] == 'pop_front':
+        if len(quene) == 0:
+            print('-1')
+        else:
+            print(quene[0])
+            quene.popleft()
+
+    elif order[0] == 'pop_back':
+        if len(quene) == 0:
+            print('-1')
+        else:
+            print(quene[-1])
+            quene.pop()
+
+    elif order[0] == 'push_front':
+        quene.appendleft(int(order[1]))
+    
+    elif order[0] == 'push_back':
+        quene.append(int(order[1]))
+
+
+### BOJ 1021번
+
+from collections import deque
+import sys
+
+input = sys.stdin.readline()
+
+n,m = map(int, input().split())
+quene = deque([])
+new_quene = []      # 추출한 수를 넣어두는 리스트
+
+need_number = list(input().split())     # 뽑아야 하는 숫자들
+
+for x in range(1,n+1):
+    quene.append(x)
+
+while len(new_quene) < m:
+
+
+
+# 모범답안 
+    # 내가 생각하고 구상한 코드와 비슷하지만 훨씬 간견하다
+from collections import deque
+
+n, m = map(int, input().split())    # 큐의 크기 n과 뽑아내려고 하는 수의 개수 m을 입력값으로 받기
+position = list(map(int, input().split()))  # 뽑아내려는 수의 위치를 입력값으로 받기
+dq = deque([i for i in range(1, n+1)])  # deque([1, 2, 3,...,n])
+
+count = 0   # 2, 3번 수행하면 카운트 올리기
+for i in position:  # 뽑아내려는 수의 위치 하나씩 반복문 돌리기
+    while True:     # 뽑을 때까지 계속 돌리기
+        if dq[0] == i:  # dq의 첫인덱스가 뽑아내려는 수의 위치와 같다면 1번 수행
+            dq.popleft()
+            break
+        else:
+            if dq.index(i) < len(dq)/2:  # 뽑아내려는 수의 위치 인덱스가 dq의 길이를 반으로 나눈것보다 작을때는 왼쪽으로 움직여야 최소
+                while dq[0] != i:   # dq의 첫번째 인덱스가 i와 같아질때까지 반복
+                    dq.append(dq.popleft())  
+                    count += 1
+            else:   # 뽑아내려는 수의 위치 인덱스가 dq의 길이를 반으로 나눈것보다 클때는 오른쪽으로 움직여야 최소
+                while dq[0] != i:
+                    dq.appendleft(dq.pop())  
+                    count += 1
+print(count)
