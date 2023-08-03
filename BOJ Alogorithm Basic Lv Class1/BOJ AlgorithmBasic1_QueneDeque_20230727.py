@@ -307,3 +307,80 @@ for i in position:  # 뽑아내려는 수의 위치 하나씩 반복문 돌리�
                     dq.appendleft(dq.pop())  
                     count += 1
 print(count)
+
+#####################################################################
+
+####### 2023-07-30
+
+### BOJ 5430번
+    # 내 답(오류)  :  시간초과 + 입력값에 []포함시 에러
+'''
+from collections import deque
+import sys
+
+input = sys.stdin.readline
+t = int(input())
+
+for x in range(t):
+    command = input()
+    length = int(input())
+    case = input().strip('[]')
+    case = deque(case)
+    print(case)
+    flag = 0
+
+    for x in command:
+        print(x)
+        if x == 'R':
+            case.reverse()
+        elif x == 'D':
+            if len(case) != 0:
+                case.popleft()
+            else:
+                print('error')
+                flag = 1
+                break
+    if flag == 0:
+        print(case)
+'''
+##################################################################### 
+
+###### 2023-08-02 continue
+
+### BOJ 5430 모범답안
+
+
+from collections import deque
+ 
+t = int(input())
+ 
+for i in range(t):
+    p = input()
+    n = int(input())
+    arr = input()[1:-1].split(',')
+ 
+    queue = deque(arr)
+    flag = 0
+ 
+    if n == 0:
+        queue = []
+ 
+    for j in p:
+        if j == 'R':
+            flag += 1
+        elif j == 'D':
+            if len(queue) == 0:
+                print("error")
+                break
+            else:
+                if flag % 2 == 0:
+                    queue.popleft()
+                else:
+                    queue.pop()
+ 
+    else:
+        if flag % 2 == 0:
+            print("[" + ",".join(queue) + "]")
+        else:
+            queue.reverse()
+            print("[" + ",".join(queue) + "]")
