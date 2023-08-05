@@ -384,3 +384,82 @@ for i in range(t):
         else:
             queue.reverse()
             print("[" + ",".join(queue) + "]")
+
+##################################################################### 
+'''
+###### 2023-08-05
+
+### BOJ 17413번 단어뒤집기2
+    ## 모범답안
+'''
+import sys
+S = sys.stdin.readline().strip() + ' ' # 마지막에 공백을 더해주자
+stack = [] # 저장해줄 스택
+result = '' # 결과물 출력
+cnt = 0 # 괄호 안에 있는지 여부
+
+for i in S : # 받은 문자열 찾아보자
+    if i == '<' : # <를 만나면
+        cnt = 1 # 지금 괄호 안에 있음 표시
+        for _ in range(len(stack)): #괄호 만나기 이전 stack 애들 비워주고 다 뒤집어서 더해!
+            result += stack.pop()
+    stack.append(i)     # 여기에 append인 이유는 '<'는 뒤집히면 안되기때문
+    
+    if i == '>' : # >를 만나면
+        cnt = 0 # 지금 괄호 빠져 나왔음 표시
+        for _ in range(len(stack)): # 괄호 안에 있는 애들은 뒤집지 말고 더해!
+            result += stack.pop(0)
+
+    if i == ' ' and cnt == 0: # 공백을 만나고 괄호 밖에 있다면
+        stack.pop() # 위에 append에의해서 들어간 공백 뺴주고
+        for _ in range(len(stack)): # 뒤집어서 더해!
+            result += stack.pop()
+        result += ' ' # 마지막에 공백 살려주기
+print(result)
+
+
+### BOJ 10799번 쇠막대기
+    ### 내답 = 시간이 살짝 걸림
+a = input().strip()
+stack = []
+number = []     # 닫는괄호 index를 넣기 위함
+count = 0       # 순서구현
+total = 0
+
+for x in a:
+    count += 1
+    if x == '(':
+        stack.append(x)
+        number.append(count)
+
+    elif x == ')':
+        if int(number[-1]) == (count-1):
+            stack.pop()
+            total = total + len(stack)
+        else:
+            stack.pop()
+            total += 1
+
+print(total)
+
+    ### 보완 = 레이져를 다 replace시켜준다
+a = input()
+stack = []
+number = []     # 닫는괄호 index를 넣기 위함
+count = 0       # 순서구현
+total = 0
+
+for x in a.replace('()', '|'):
+    count += 1
+    if x == '(':
+        stack.append(x)
+        number.append(count)
+
+    elif x == ')':    
+        stack.pop()
+        total += 1
+
+    else:
+        total = total + len(stack)
+
+print(total)
