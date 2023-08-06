@@ -463,3 +463,50 @@ for x in a.replace('()', '|'):
         total = total + len(stack)
 
 print(total)
+
+
+###################################################################
+
+######2023-08-06
+
+### BOJ 17298번 오큰수
+
+    ### 내답(시간초과)
+        # 더블 for문을 씀으로서 시간초과....
+from collections import deque
+
+a = int(input())
+num_list = list(input().split())
+t = []
+
+for x in num_list:
+    count = 0
+    for y in num_list:
+        if x < y and num_list.index(x) < num_list.index(y):
+            t.append(y)
+            count += 1
+            break
+
+    if count == 0:
+        t.append('-1')
+
+for z in t:
+    print(z, end=" ")
+
+    ### 모범답안 (당연히 스택활용)
+import sys
+n = int(input())
+A = list(map(int, sys.stdin.readline().split()))
+answer = [-1] * n
+stack = []
+
+
+stack.append(0)     # start index를 넣는다
+for i in range(1, n):   # 비교대상이 그 다음 숫자이기에 index[1] 부터 스타트
+    while stack and A[stack[-1]] < A[i]:
+        answer[stack.pop()] = A[i]
+    stack.append(i)     # 마지막에 index를 삽입해서 그 다음 숫자와 비교하게 만든다
+
+
+
+print(*answer)
