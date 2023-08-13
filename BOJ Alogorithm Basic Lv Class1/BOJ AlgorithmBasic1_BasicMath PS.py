@@ -158,7 +158,48 @@ for i in range(M, N):
         if sieve[i]:
             print(i)
 '''
+###############################  2023-08-12, 08-13 ####################################
 
+        ########## 골드바흐의 추측(Goldbach's Conjecture) #####################
+    # 정의 : 2보다 큰 모든 짝수는 두 소수의 합으로 표현이 가능하다
+        # 번외 : 2에 3을더한 5보다 큰 모든 홀수는 세 소수의 합으로 표현이 가능하다 
+
+
+### BOJ 6588번 골드바흐의 추측
+
+t= int(input()) # number of test case
+
+import math
+
+def d(N): # 소수 판별 함수
+    if N == 1:
+        return False
+    for i in range(2, int(math.sqrt(N))+1):
+        if N % i == 0:
+            return False
+    return True
+
+for _ in range(t):
+    n = int(input())
+
+    a = n // 2
+    b = a
+    for _ in range(n//2):
+        if d(a) and d(b):   # a,b가 모두 소수일때
+            print(a, b)
+            break
+        else:
+            a -= 1
+            b += 1
+
+
+        ############## 팩토리얼(Factorial) ######################
+
+### BOJ 10872번 팩토리얼
+import math
+
+a = int(input())
+print(math.factorial(a))
 
 
 
