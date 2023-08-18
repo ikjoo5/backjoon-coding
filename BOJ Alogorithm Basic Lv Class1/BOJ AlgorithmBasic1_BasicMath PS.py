@@ -201,5 +201,19 @@ import math
 a = int(input())
 print(math.factorial(a))
 
+'''
+### BOJ 1676번 팩토리얼 0의 개수
+import math
+n = int(input())
+m = list(str(math.factorial(n)))
+count = 0
+
+while True:
+    if m[-1] == '0':    # == 0이아니라 '0'이다!!!!
+        m.pop()
+        count = count + 1
+    else:
+        break
+print(count)
 
 
